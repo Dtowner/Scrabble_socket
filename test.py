@@ -49,4 +49,8 @@ board[1][1] = 'a'
 for count, row in enumerate(board):
     print(count, row)
 
-board[1][1] = 'a'
+def game_board_update(letter_coordinate["",,]):
+    letter = letter_coordinate[0]
+    row = letter_coordinate[1]
+    column = letter_coordinate[2]
+    return board[row][column] = letter
