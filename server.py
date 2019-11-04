@@ -12,6 +12,7 @@ def threaded(c):
         # data received from client
         data = c.recv(1024)
         print(str(data))
+        player_counter += 1
         if (data == 'quit'):
             print('Bye')
             break
@@ -53,11 +54,8 @@ def turn(user_number):
     4: "player4",
     }
 
-# def board(letter, row, column ):
-
-
-
-
+def board(letter, row, column ):
+    print('hello')
 
 if __name__ == '__main__':
-    Main()
+    main()
