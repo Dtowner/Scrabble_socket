@@ -1,10 +1,12 @@
 # import socket programming library
 import socket
+import traceback 
 import string
 import sys
 from _thread import *
 import threading
 import random
+from random import shuffle
 # thread fuction
 def threaded(c):
     while True:
@@ -41,19 +43,9 @@ def Main():
 
     s.close()
 #tiles function
-def tiles_generate(initial_hand_size):
-    letters = string.ascii_lowercase
-    return ''.join(random.choice(letters) for i in range(initial_hand_size))
 
-def turn(user_number):
-    switcher = {
-    1: "player1",
-    2: "player2",
-    3: "player3",
-    4: "player4",
-    }
 
-# def board(letter, row, column ):
+
 
 
 
