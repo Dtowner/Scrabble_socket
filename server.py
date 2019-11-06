@@ -7,12 +7,12 @@ import threading
 import random
 # thread fuction
 def threaded(c):
+    global player_counter += 1
     while True:
 
         # data received from client
         data = c.recv(1024)
         print(str(data))
-        player_counter += 1
         if (data == 'quit'):
             print('Bye')
             break
