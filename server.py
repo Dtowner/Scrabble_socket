@@ -1,61 +1,24 @@
-# import socket programming library
 import socket
-import string
 import sys
-from _thread import *
-import threading
-import random
-# thread fuction
-def threaded(c):
-    global player_counter += 1
-    while True:
+import platform
 
-        # data received from client
-        data = c.recv(1024)
-        print(str(data))
-        if (data == 'quit'):
-            print('Bye')
-            break
-        c.send(data)
-    # connection closed
-    c.close()
 
-def Main():
-    host = ""
-    port = 12345
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind((host, port))
-    print("socket binded to port", port)
 
-    # put the socket into listening mode
+port = 12345
+
+
+with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+    s.bind((socket.gethostname(), port))
     s.listen(5)
-    print("socket is listening")
 
-    # a forever loop until client wants to exit
-    while True:
+    clientsocket, address = s.accept()
+    with clientsocket:
+        print(f"Connected to: {address} ")
 
-        # establish connection with client
-        c, addr = s.accept()
-        print('Connected to :', addr[0], ':', addr[1])
-        # Start a new thread and return its identifier
-        start_new_thread(threaded, (c,))
+        clientsocket.send(bytes("Hello. Welcome to the server", 'UTF-8'))
 
-    s.close()
-#tiles function
-def tiles_generate(initial_hand_size):
-    letters = string.ascii_lowercase
-    return ''.join(random.choice(letters) for i in range(initial_hand_size))
-
-def turn(user_number):
-    switcher = {
-    1: "player1",
-    2: "player2",
-    3: "player3",
-    4: "player4",
-    }
-
-def board(letter, row, column ):
-    print('hello')
-
-if __name__ == '__main__':
-    main()
+        while True:
+            data = clientsocket.recv(2048)
+            if not data:
+                break
+            connection.sendall(data)
