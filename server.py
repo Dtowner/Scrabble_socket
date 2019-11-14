@@ -4,29 +4,22 @@ import random
 
 global letter_points
 letter_points = {"A":1, "B":3, "C":3, "D":2, "E":1, "F":4, "G":2, "H":4, "I":1, "J":1, "K":5, "L":1, "M":3, "N":1, "O":1, "P":3, "Q":10, "R":1, "S":1, "T":1, "U":1, "V":4, "W":4, "X":8, "Y":4, "Z":10}
-class player:
-    def __init__(self, bag):
-        self.name = " "
-        self.hand = hand(bag)
-        self.score = 0
 
-    def set_name(self, name):
-        self.name = name
+class tiles:
+    def __init__(self, letter, letter_points):
+        self.letter = letter.upper()
+        if self.letter in letter.upper():
+            self.score = letter_points[self.letter]
 
-    def get_name(self):
-        return self.name
+        else:
+            self.score = 0
 
-    def get_hand_str(self):
-        return self.hand.get_hand_str()
-
-    def get_hand_array(self):
-        return self.hand.get_hand_array()
-
-    def increase_score(self, increase):
-        self.score += increase
+    def get_letter(self):
+        return self.letter
 
     def get_score(self):
-        return self.score
+        self.score
+
 class bag:
     def __init__(self):
         self.bag = []
@@ -72,6 +65,104 @@ class bag:
 
     def get_remaining_tiles(self):
         return len(self.bag)
+
+class bag:
+    def __init__(self):
+        self.bag = []
+        self.initialize_bag()
+
+    def add_to_bag(self, tile, amount):
+        for i in range(amount):
+            self.bag.append(tile)
+
+    def initialize_bag(self):
+        global letter_points
+        self.add_to_bag(tiles(("A", letter_points), 9))
+        self.add_to_bag(tiles(("B", letter_points), 2))
+        self.add_to_bag(tiles(("C", letter_points), 2))
+        self.add_to_bag(tiles(("D", letter_points), 4))
+        self.add_to_bag(tiles(("E", letter_points), 12))
+        self.add_to_bag(tiles(("F", letter_points), 2))
+        self.add_to_bag(tiles(("G", letter_points), 3))
+        self.add_to_bag(tiles(("H", letter_points), 2))
+        self.add_to_bag(tiles(("I", letter_points), 9))
+        self.add_to_bag(tiles(("J", letter_points), 9))
+        self.add_to_bag(tiles(("K", letter_points), 1))
+        self.add_to_bag(tiles(("L", letter_points), 4))
+        self.add_to_bag(tiles(("M", letter_points), 2))
+        self.add_to_bag(tiles(("N", letter_points), 6))
+        self.add_to_bag(tiles(("O", letter_points), 8))
+        self.add_to_bag(tiles(("P", letter_points), 2))
+        self.add_to_bag(tiles(("Q", letter_points), 1))
+        self.add_to_bag(tiles(("R", letter_points), 6))
+        self.add_to_bag(tiles(("S", letter_points), 4))
+        self.add_to_bag(tiles(("T", letter_points), 6))
+        self.add_to_bag(tiles(("U", letter_points), 4))
+        self.add_to_bag(tiles(("V", letter_points), 2))
+        self.add_to_bag(tiles(("W", letter_points), 2))
+        self.add_to_bag(tiles(("X", letter_points), 1))
+        self.add_to_bag(tiles(("Y", letter_points), 2))
+        self.add_to_bag(tiles(("Z", letter_points), 1))
+        #self.add_to_bag(tiles((random())))
+        shuffle(self.bag)
+
+    def take_from_bag(self):
+        return self.bag.pop()
+
+    def get_remaining_tiles(self):
+        return len(self.bag)
+
+class hand:
+    def __init__(self, bag):
+        self.hand = []
+        self.bag = bag
+        self.initialize()
+
+    def add_to_hand(self):
+        self.hand.append(self.bag.take_from_bag())
+
+    def initialize(self):
+        for i in range(7):
+            self.add_to_hand()
+
+    def get_hand_str(self):
+        return ", ".join(str(item.get_letter()) for item in self.hand)
+
+    def get_hand_array(self):
+        return self.hand
+
+    def get_hand_length(self):
+        return len(self.hand)
+
+    def refill_hand(self):
+        while self.get_hand_length() < 7 and self.bag.get_remaining_tiles() > 0:
+            self.add_to_bag()
+
+class player:
+    def __init__(self, bag):
+        self.name = " "
+        self.hand = hand(bag)
+        self.score = 0
+
+    def set_name(self, name):
+        self.name = name
+
+    def get_name(self):
+        return self.name
+
+    def get_hand_str(self):
+        return self.hand.get_hand_str()
+
+    def get_hand_array(self):
+        return self.hand.get_hand_array()
+
+    def increase_score(self, increase):
+        self.score += increase
+
+    def get_score(self):
+        return self.score
+
+
 class Board:
      def __init__(self):
          self.board = [["   " for i in range(15)] for j in range(15)]
@@ -168,52 +259,16 @@ class word:
 
     def get_word(self):
         return self.word
-class tiles:
-    def __init__(self, letter, letter_points):
-        self.letter = letter.upper()
-        if self.letter in letter.upper():
-            self.score = letter_points[self.letter]
 
-        else:
-            self.score = 0
 
-    def get_letter(self):
-        return self.letter
-
-    def get_score(self):
-        self.score
-
-class hand:
-    def __init__(self, bag):
-        self.hand = []
-        self.bag = bag
-        self.initialize()
-
-    def add_to_hand(self):
-        self.hand.append(self.bag.take_from_bag())
-
-    def initialize(self):
-        for i in range(7):
-            self.add_to_hand()
-
-    def get_hand_str(self):
-        return ", ".join(str(item.get_letter()) for item in self.hand)
-
-    def get_hand_array(self):
-        return self.hand
-
-    def get_hand_length(self):
-        return len(self.hand)
-
-    def refill_hand(self):
-        while self.get_hand_length() < 7 and self.bag.get_remaining_tiles() > 0:
-            self.add_to_bag()
 def turn(player, board, bag):
     global round_number, players, skipped_turns
 
     if (skipped_turns < 6) or (player.hand.get_hand_length() == 0 and bag.get_remaining_tiles() == 0):
 
         print("\nRound " + str(round_number) + ": " + player.get_name() + " 's turn \n")
+        turn ="OK: " player.get_name() + "'s turn"
+        #connection.sendall(bytes(turn, ENCODING))
         print(board.get_board())
         print("\n" + player.get_name() + "'s Hand: " + player.get_hand_str())
 
@@ -232,6 +287,33 @@ def turn(player, board, bag):
 
         if word.get_word() == "":
             print("your turn has been skipped.")
+def start_game():
+    global round_number, players, skipped_turns
+
+    board = board()
+    bag = bag()
+
+    number_of_players = 1
+    players = []
+    for i in range(number_of_players):
+        players.append(player(bag))
+        players[i] = set_name(name1_data.decode())
+
+    round_number = 1
+    skipped_turns = 0
+    current_player = players[0]
+    turn (current_player, board, bag)
+
+def end_game():
+    global players
+    highest_score = 0
+    winning_player = ""
+    for player in players:
+        if player.get_score() > highest_score:
+            highest_score = player.get_score()
+            winning_player = player.get_name()
+
+    print("the game is voer! " + player.get_name() + " , you have won")
 
 try:
     soc = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -239,7 +321,7 @@ try:
 except socket.error as err:
     print("The socket was not created")
 
-port = 12345
+port = 9000
 host = '127.0.0.1'
 global msg
 global data
@@ -280,9 +362,6 @@ with connection:
                 print("this is the initial name: " + name1_data.decode())
                 ok_name_message = "OK: the base name is set:  " + name1_data.decode()
                 connection.sendall(bytes(ok_name_message, ENCODING))
-                p1 = player(bag)
-                pl.get_name(name1_data.decode())
-                print(p1.get_name())
             else:
                 break
 
@@ -290,7 +369,7 @@ with connection:
 
         data = connection.recv(2048)
 
-        if "quit" in data.decode():
+        if "QUIT" in data.decode():
             msg = 'Goodbye'
             print("Goodbye")
             connection.send(bytes(msg, ENCODING))
@@ -303,6 +382,12 @@ with connection:
 
             userchange = "Userchange " + name1_data.decode() + " has changed their name to " + name_data.decode()
             print(userchange)
+
+        elif "READY" in data.decode():
+            msg = "OK: READY\n OK: STARTING"
+            connection.sendall(bytes(msg, ENCODING))
+            print(msg)
+            start_game() 
 
         else:
             print("Goodbye")

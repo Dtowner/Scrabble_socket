@@ -5,7 +5,7 @@ import getpass
 
 counter = 0
 host = '127.0.0.1'
-port = 12345
+port = 9000
 ENCODING = 'ascii'
 global message
 message = " "
@@ -49,7 +49,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
 
         while True:
             message = input('Type command to execute: ')
-            if message == "quit":
+            if message == "QUIT":
                 server.sendall(bytes(message, ENCODING))
                 data = server.recv(2048)
                 break
@@ -60,10 +60,11 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
                 new_name = input('Enter new name to change to: ')
                 server.sendall(bytes(new_name, ENCODING))
 
-            elif message == "quit":
+            elif "READY" in message:
                 server.sendall(bytes(message, ENCODING))
                 data = server.recv(2048)
-                break
+                print(data.decode())
+
             else:
                 msg = "NOK: Unrecognized command"
 
